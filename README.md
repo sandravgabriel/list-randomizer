@@ -1,7 +1,7 @@
 # List Randomizer
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org)
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.09.00-brightgreen.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.09.01-brightgreen.svg)](https://developer.android.com/jetpack/compose)
 
 A modern Android application built with Kotlin and Jetpack Compose. It features local data storage using Room and image handling with PhotoPicker and Coil.
 

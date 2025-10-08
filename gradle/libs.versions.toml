@@ -6,22 +6,22 @@ ksp = "2.2.0-2.0.2"
 
 # AndroidX Libraries
 coreKtx = "1.17.0"
-lifecycleRuntimeKtx = "2.9.3"
+lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
-androidx-navigation = "2.9.4"
+androidx-navigation = "2.9.5"
 material = "1.13.0"
-material3WindowSizeClass = "1.3.2"
-roomKtx = "2.8.0"
+material3WindowSizeClass = "1.4.0"
+roomKtx = "2.8.1"
 
 # Jetpack Compose
-composeBom = "2025.09.00"
+composeBom = "2025.09.01"
 
 # Testing Frameworks (JUnit 4)
 junit = "4.13.2"
 junitVersion = "1.3.0"
 junitKtx = "1.3.0"
 espressoCore = "3.7.0"
-mockk = "1.14.5"
+mockk = "1.14.6"
 robolectric = "4.16"
 kotlinxCoroutinesTest = "1.10.2"
 androidxTestCore = "1.7.0" # (kann für Robolectric nützlich sein, bringt AndroidX APIs in Tests)
