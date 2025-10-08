@@ -8,5 +8,9 @@ data class ItemEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val imageName: String
+    val imageName: String,
+    val description: String?,
+    val genre: String?,
+    val minPlayer: Int?,
+    val maxPlayer: Int?
 )

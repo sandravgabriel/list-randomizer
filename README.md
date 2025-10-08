@@ -54,8 +54,8 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
     *   Open `app/src/main/java/.../data/ItemEntry.kt`.
     *   Add the new property to the `ItemEntry` data class and ensure it's reflected in the `@Entity` definition if it's a new column.
     *   If it's a schema change, create a new Room migration.
-2.  **Update Data Model (if separate):**
-    *   If you have a domain `Item.kt` model, update it accordingly.
+2.  **Update Data Model:**
+    *   Update `Item.kt` to include the new property.
     *   Adjust any mapping functions (e.g., `toItem()`, `fromItemEntry()`).
 3.  **Update UI & ViewModel:**
     *   Modify `ItemDetailsUiState.kt` and `HomeUiState.kt` (if the property is shown in the list) to include the new data.
