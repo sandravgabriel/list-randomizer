@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">List Template</string>
+    <string name="app_name">List Randomizer</string>
     <string name="attention">Attention</string>
     <string name="back_button">Back</string>
     <string name="delete">Delete</string>
@@ -21,6 +21,6 @@
     <string name="save_action">Save</string>
     <string name="yes">Yes</string>
     <string name="required_fields">*required fields</string>
-    <string name="screen_title_detail">List Template</string>
+    <string name="screen_title_detail">List Randomizer</string>
     <string name="placeholder_no_item_selected">No Item selected</string>
 </resources>

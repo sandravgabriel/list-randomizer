@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "de.gabriel.listtemplate"
+    namespace = "de.gabriel.listrandomizer"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "de.gabriel.listtemplate"
+        applicationId = "de.gabriel.listrandomizer"
         minSdk = 30
         targetSdk = 36
         versionCode = 1

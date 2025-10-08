@@ -51,7 +51,7 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
 ### Add a New List Item Property
 
 1.  **Update Room Entity:**
-    *   Open `app/src/main/java/.../data/local/ItemEntry.kt`.
+    *   Open `app/src/main/java/.../data/ItemEntry.kt`.
     *   Add the new property to the `ItemEntry` data class and ensure it's reflected in the `@Entity` definition if it's a new column.
     *   If it's a schema change, create a new Room migration.
 2.  **Update Data Model (if separate):**
@@ -78,7 +78,7 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
     *   Build your UI using Jetpack Compose components.
 4.  **Add Navigation:**
     *   Define a new route object for your screen (e.g., similar to `HomeDestination` or `ItemEntryDestination`, often placed in its own file or alongside the screen's Composable). This object typically defines at least a `route` string.
-    *   Add a new `composable` entry for this route within the `NavHost` in your main navigation setup (in `ListTemplateApp.kt`)
+    *   Add a new `composable` entry for this route within the `NavHost` in your main navigation setup (in `ListRandomizerApp.kt`)
     *   Implement navigation actions (e.g., using `navController.navigate(YourNewScreenDestination.route)`) in other parts of your app to navigate to and from your new screen.
 
 ## 🧪 Testing
