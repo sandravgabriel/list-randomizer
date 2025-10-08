@@ -1,9 +1,9 @@
-# List Template: Android App Template
+# List Randomizer
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org)
 [![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.09.00-brightgreen.svg)](https://developer.android.com/jetpack/compose)
 
-A modern Android application template built with Kotlin and Jetpack Compose, designed to provide a solid foundation for list-based applications. It features local data storage using Room and image handling with PhotoPicker and Coil.
+A modern Android application built with Kotlin and Jetpack Compose. It features local data storage using Room and image handling with PhotoPicker and Coil.
 
 ## ✨ Features
 
@@ -21,7 +21,7 @@ A modern Android application template built with Kotlin and Jetpack Compose, des
 
 ## 📱 Adaptive UI
 
-This template utilizes Material 3 Adaptive components to create user interfaces that respond to different screen sizes and orientations, focusing on a common list-detail pattern.
+List Randomizer utilizes Material 3 Adaptive components to create user interfaces that respond to different screen sizes and orientations, focusing on a common list-detail pattern.
 
 *   **`NavigableListDetailPaneScaffold`:** The core of the adaptive layout is the `NavigableListDetailPaneScaffold`. This component from the Material 3 Adaptive library automatically adjusts the layout based on available screen width.
     *   On **smaller screens** (like most phones in portrait mode), it typically displays a single pane (e.g., the list of items). Selecting an item navigates to its detail view, replacing the list.
@@ -40,7 +40,7 @@ This approach provides a robust foundation for building responsive list-detail i
 
 ## 🏛️ Architecture
 
-This template follows the **MVVM (Model-View-ViewModel)** architectural pattern:
+This application follows the **MVVM (Model-View-ViewModel)** architectural pattern:
 
 *   **View (Composables):** Observes `StateFlow` from the `ViewModel` and renders the UI. Sends user events to the `ViewModel`.
 *   **ViewModel:** Holds UI-related state (exposed via `StateFlow`) and handles UI logic. Interacts with Repositories to fetch and save data. `ViewModel`s are lifecycle-aware and generally do not need to be aware of the specific screen configuration.
