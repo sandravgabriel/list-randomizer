@@ -132,7 +132,6 @@ fun ItemEntryBody(
             onValueChange = onItemValueChange,
             modifier = Modifier.fillMaxWidth()
         )
-        Text(text = stringResource(R.string.image))
         if (imageUriToDisplay != null) {
             AsyncImage(
                 model = imageUriToDisplay,
@@ -187,7 +186,7 @@ fun ItemInputForm(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
     ) {
         OutlinedTextField(
             value = itemDetails.name,
@@ -200,6 +199,54 @@ fun ItemInputForm(
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = itemDetails.description,
+            onValueChange = { onValueChange(itemDetails.copy(description = it)) },
+            label = { Text(stringResource(R.string.item_description)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = false
+        )
+        OutlinedTextField(
+            value = itemDetails.genre,
+            onValueChange = { onValueChange(itemDetails.copy(genre = it)) },
+            label = { Text(stringResource(R.string.item_genre)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = itemDetails.minPlayer,
+            onValueChange = { onValueChange(itemDetails.copy(minPlayer = it)) },
+            label = { Text(stringResource(R.string.item_min_player)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = itemDetails.maxPlayer,
+            onValueChange = { onValueChange(itemDetails.copy(maxPlayer = it)) },
+            label = { Text(stringResource(R.string.item_max_player)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
         if (enabled) {

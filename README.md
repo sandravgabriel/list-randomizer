@@ -57,11 +57,10 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
 2.  **Update Data Model:**
     *   Update `Item.kt` to include the new property.
     *   Adjust any mapping functions (e.g., `toItem()`, `fromItemEntry()`).
-3.  **Update UI & ViewModel:**
-    *   Modify `ItemDetailsUiState.kt` and `HomeUiState.kt` (if the property is shown in the list) to include the new data.
-    *   Update `DetailPaneState.kt` if the new property affects the states managed by `NavigableListDetailPaneScaffold`.
-    *   Update the `ViewModel`s (`HomeViewModel.kt`, `ItemDetailsViewModel.kt`) to handle the new property.
-    *   Adjust Composable functions in `app/src/main/java/.../ui/screens/` to display or input the new property.
+3.  **Update UI & ViewModels:**
+    *   Update ItemDetails and extension functions in `ItemEntryViewModel.kt` (and also the function `validateInput` if needed)
+    *   Update the ViewModels in `app/src/main/java/.../ui/item/` to handle the new property.
+    *   Adjust Composable functions `ItemEntryScreen.kt` and `ItemDetailsScreen.kt` to display or input the new property.
 
 ### Create a New Screen
 

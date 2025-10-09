@@ -237,7 +237,9 @@ private fun HomeItem(
 fun HomeBodyPreview() {
     ListRandomizerTheme {
         HomeBody(listOf(
-            Item.fromItemEntry(ItemEntry(1, "Item",""),null), Item.fromItemEntry(ItemEntry(2, "Item",""),null), Item.fromItemEntry(ItemEntry(3, "Item",""),null)
+            Item.fromItemEntry(ItemEntry(1, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null),
+            Item.fromItemEntry(ItemEntry(2, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null),
+            Item.fromItemEntry(ItemEntry(3, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null)
         ), onItemClick = {})
     }
 }
@@ -255,7 +257,7 @@ fun HomeBodyEmptyListPreview() {
 fun HomeItemPreview() {
     ListRandomizerTheme {
         HomeItem(
-            Item.fromItemEntry(ItemEntry(1, "Item",""),null)
+            Item.fromItemEntry(ItemEntry(1, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null)
         )
     }
 }

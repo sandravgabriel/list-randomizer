@@ -69,6 +69,10 @@ data class ItemDetails(
     val id: Int = 0,
     val name: String = "",
     val savedPhoto: File? = null,
+    val description: String = "",
+    val genre: String = "",
+    val minPlayer: String = "",
+    val maxPlayer: String = ""
 )
 
 /**
@@ -77,16 +81,11 @@ data class ItemDetails(
 fun ItemDetails.toItem(): Item = Item(
     id = id,
     name = name,
-    image = savedPhoto
-)
-
-/**
- * Extension function to convert [Item] to [ItemUiState]
- */
-fun Item.toItemUiState(isEntryValid: Boolean = false): ItemUiState = ItemUiState(
-    itemDetails = this.toItemDetails(),
-    isEntryValid = isEntryValid,
-    localPickerPhoto = this.toItemDetails().savedPhoto?.let { Uri.fromFile(it) }
+    image = savedPhoto,
+    description = description,
+    genre = genre,
+    minPlayer = minPlayer.toIntOrNull(),
+    maxPlayer = maxPlayer.toIntOrNull()
 )
 
 /**
@@ -95,5 +94,9 @@ fun Item.toItemUiState(isEntryValid: Boolean = false): ItemUiState = ItemUiState
 fun Item.toItemDetails(): ItemDetails = ItemDetails(
     id = id,
     name = name,
-    savedPhoto = image
+    savedPhoto = image,
+    description = description ?: "",
+    genre = genre ?: "",
+    minPlayer = minPlayer?.toString() ?: "",
+    maxPlayer = maxPlayer?.toString() ?: ""
 )

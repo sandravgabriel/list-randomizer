@@ -12,7 +12,11 @@
     <string name="item">Item</string>
     <string name="item_detail_title">Item Details</string>
     <string name="item_entry_title">Add Item</string>
-    <string name="item_name_req">Item Name*</string>
+    <string name="item_name_req">Name*</string>
+    <string name="item_description">Description</string>
+    <string name="item_genre">Genre</string>
+    <string name="item_min_player">Min Player count</string>
+    <string name="item_max_player">Max Player count</string>
     <string name="image">Image</string>
     <string name="image_name">Image Name: </string>
     <string name="no_image">no Image</string>

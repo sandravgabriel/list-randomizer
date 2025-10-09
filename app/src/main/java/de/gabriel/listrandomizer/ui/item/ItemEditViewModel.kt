@@ -24,11 +24,11 @@ class ItemEditViewModel(
     var itemUiState by mutableStateOf(ItemUiState())
         private set
 
-    private var currentItemId: Int? = null // Hält die ID des zu bearbeitenden Items
+    private var currentItemId: Int? = null
 
     init {
         val navArgItemId: Int? = savedStateHandle[ItemEditDestination.ITEM_ID_ARG]
-        if (navArgItemId != null && navArgItemId > 0) { // Stelle sicher, dass die ID gültig ist
+        if (navArgItemId != null && navArgItemId > 0) {
             initializeWithItemId(navArgItemId)
         } else {
             // Wenn keine gültige ID aus NavArgs kommt, wird das ViewModel möglicherweise
@@ -45,10 +45,8 @@ class ItemEditViewModel(
             return
         }
         this.currentItemId = itemId
-        Log.d("ItemEditViewModel", "Initialisiere mit itemId: $itemId")
 
         viewModelScope.launch {
-            // Lade das Item mit der neuen ID
             val loadedItemEntity = itemsRepository.getItemWithFile(itemId, photoSaver.photoFolder)
                 .filterNotNull()
                 .firstOrNull()
@@ -58,9 +56,8 @@ class ItemEditViewModel(
                 itemUiState = ItemUiState(
                     itemDetails = initialItemDetails,
                     isEntryValid = validateInput(initialItemDetails),
-                    localPickerPhoto = null // Wichtig: Für ein bestehendes Item explizit zurücksetzen
+                    localPickerPhoto = null // Für ein bestehendes Item explizit zurücksetzen
                 )
-                Log.d("ItemEditViewModel", "Item $itemId geladen: ${initialItemDetails.name}")
             } else {
                 Log.e("ItemEditViewModel", "Konnte Item mit ID $itemId nicht laden.")
                 itemUiState = ItemUiState(isEntryValid = false) // Setze auf leeren/ungültigen Zustand
@@ -128,7 +125,6 @@ class ItemEditViewModel(
         )
 
         itemsRepository.updateItem(detailsForUpdate.toItem().toItemEntry())
-        Log.d("ItemEditViewModel", "Item ${detailsForUpdate.id} Aktualisierung angestoßen.")
         return true
     }
 }
