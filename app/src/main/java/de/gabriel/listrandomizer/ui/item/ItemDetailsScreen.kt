@@ -283,6 +283,42 @@ fun ItemDetails(
                     )
                 ),
             )
+            ItemDetailsRow(
+                itemDetail = item.genre ?: "",
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                ),
+            )
+            ItemDetailsRow(
+                itemDetail = item.minPlayer.toString(),
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                ),
+            )
+            ItemDetailsRow(
+                itemDetail = item.maxPlayer.toString(),
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                ),
+            )
+            ItemDetailsRow(
+                itemDetail = item.description ?: "",
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                ),
+            )
         }
     }
 }

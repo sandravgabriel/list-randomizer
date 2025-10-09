@@ -59,8 +59,7 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
     *   Adjust any mapping functions (e.g., `toItem()`, `fromItemEntry()`).
 3.  **Update UI & ViewModels:**
     *   Update ItemDetails and extension functions in `ItemEntryViewModel.kt` (and also the function `validateInput` if needed)
-    *   Update the ViewModels in `app/src/main/java/.../ui/item/` to handle the new property.
-    *   Adjust Composable functions `ItemEntryScreen.kt` and `ItemDetailsScreen.kt` to display or input the new property.
+    *   Adjust Composable functions `ItemEntryScreen.kt` and `ItemDetailsScreen.kt` to display and handle the new property.
 
 ### Create a New Screen
 
@@ -76,7 +75,7 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
     *   Observe the `ViewModel`'s state.
     *   Build your UI using Jetpack Compose components.
 4.  **Add Navigation:**
-    *   Define a new route object for your screen (e.g., similar to `HomeDestination` or `ItemEntryDestination`, often placed in its own file or alongside the screen's Composable). This object typically defines at least a `route` string.
+    *   Define a new route object for your screen (similar to `HomeDestination` or `ItemEntryDestination`). This object typically defines at least a `route` string.
     *   Add a new `composable` entry for this route within the `NavHost` in your main navigation setup (in `ListRandomizerApp.kt`)
     *   Implement navigation actions (e.g., using `navController.navigate(YourNewScreenDestination.route)`) in other parts of your app to navigate to and from your new screen.
 
