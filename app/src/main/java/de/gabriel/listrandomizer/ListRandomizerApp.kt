@@ -55,7 +55,7 @@ fun ListRandomizerApp(
                     AnimatedPane(modifier = Modifier) {
                         Column {
                             TopAppBar(
-                                title = "Items",
+                                title = stringResource(R.string.list_title),
                                 canNavigateBack = false
                             )
                             HomeScreen(
