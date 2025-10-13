@@ -9,6 +9,10 @@ interface ItemsRepository{
 
     suspend fun getAllItemsWithFiles(file: File): Flow<List<Item>>
 
+    suspend fun getFilteredItemsWithFiles(genre: String?, playerCount: Int?, file: File): Flow<List<Item>>
+
+    fun getAllGenres(): Flow<List<String>>
+
     suspend fun insertItem(item: ItemEntry)
 
     suspend fun updateItem(item: ItemEntry)

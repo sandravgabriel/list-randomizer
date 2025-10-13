@@ -20,6 +20,12 @@ interface ItemDao {
     @Query("SELECT * FROM item ORDER BY name ASC")
     fun getAllItems(): Flow<List<ItemEntry>>
 
+    @Query("SELECT * FROM item WHERE (:genre IS NULL OR genre = :genre) AND (:playerCount IS NULL OR (minPlayer <= :playerCount AND maxPlayer >= :playerCount)) ORDER BY name ASC")
+    fun getFilteredItems(genre: String?, playerCount: Int?): Flow<List<ItemEntry>>
+
+    @Query("SELECT DISTINCT genre FROM item WHERE genre IS NOT NULL AND genre != '' ORDER BY genre ASC")
+    fun getAllGenres(): Flow<List<String>>
+
     @Update
     suspend fun update(item: ItemEntry)
 

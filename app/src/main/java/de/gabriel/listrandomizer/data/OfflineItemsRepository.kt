@@ -26,6 +26,14 @@ class OfflineItemsRepository(private val itemDao: ItemDao) : ItemsRepository {
         }
     }
 
+    override suspend fun getFilteredItemsWithFiles(genre: String?, playerCount: Int?, file: File): Flow<List<Item>> {
+        return itemDao.getFilteredItems(genre, playerCount).map { itemEntries ->
+            itemEntries.map { itemEntry -> Item.fromItemEntry(itemEntry, file) }
+        }
+    }
+
+    override fun getAllGenres(): Flow<List<String>> = itemDao.getAllGenres()
+
     override suspend fun insertItem(item: ItemEntry) = itemDao.insert(item)
 
     override suspend fun deleteItem(item: ItemEntry) = itemDao.delete(item)

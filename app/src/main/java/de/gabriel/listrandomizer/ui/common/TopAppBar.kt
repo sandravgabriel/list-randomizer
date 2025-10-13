@@ -1,12 +1,13 @@
 package de.gabriel.listrandomizer.ui.common
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar as MaterialTopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +21,10 @@ fun TopAppBar(
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
-    CenterAlignedTopAppBar(
+    MaterialTopAppBar(
         title = { Text(title) },
         modifier = modifier,
         scrollBehavior = scrollBehavior,
@@ -35,6 +37,7 @@ fun TopAppBar(
                     )
                 }
             }
-        }
+        },
+        actions = actions
     )
 }
