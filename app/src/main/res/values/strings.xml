@@ -16,8 +16,8 @@
     <string name="item_name_req">Name*</string>
     <string name="item_description">Description</string>
     <string name="item_genre">Genre</string>
-    <string name="item_min_player">Min Player count</string>
-    <string name="item_max_player">Max Player count</string>
+    <string name="item_min_player">min Player count</string>
+    <string name="item_max_player">max Player count</string>
     <string name="image">Image</string>
     <string name="image_name">Image Name: </string>
     <string name="no_image">no Image</string>

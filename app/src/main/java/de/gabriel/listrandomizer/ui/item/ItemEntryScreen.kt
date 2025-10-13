@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -211,7 +212,7 @@ fun ItemInputForm(
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             ),
             modifier = Modifier.fillMaxWidth(),
-            singleLine = false
+            minLines = 2
         )
         OutlinedTextField(
             value = itemDetails.genre,
@@ -225,30 +226,32 @@ fun ItemInputForm(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
-        OutlinedTextField(
-            value = itemDetails.minPlayer,
-            onValueChange = { onValueChange(itemDetails.copy(minPlayer = it)) },
-            label = { Text(stringResource(R.string.item_min_player)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = itemDetails.maxPlayer,
-            onValueChange = { onValueChange(itemDetails.copy(maxPlayer = it)) },
-            label = { Text(stringResource(R.string.item_max_player)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
+        Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))) {
+            OutlinedTextField(
+                value = itemDetails.minPlayer,
+                onValueChange = { onValueChange(itemDetails.copy(minPlayer = it)) },
+                label = { Text(stringResource(R.string.item_min_player)) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
+                modifier = Modifier.weight(1f),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = itemDetails.maxPlayer,
+                onValueChange = { onValueChange(itemDetails.copy(maxPlayer = it)) },
+                label = { Text(stringResource(R.string.item_max_player)) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
+                modifier = Modifier.weight(1f),
+                singleLine = true
+            )
+        }
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
