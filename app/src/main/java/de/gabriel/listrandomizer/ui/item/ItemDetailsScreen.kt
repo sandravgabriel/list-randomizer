@@ -49,6 +49,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -238,6 +239,7 @@ fun ItemDetails(
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.padding_medium)
             ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (userImageAvailable) {
                 AsyncImage(
@@ -250,19 +252,19 @@ fun ItemDetails(
                         })
                         .build(),
                     contentDescription = "selected image",
-                    contentScale = ContentScale.Fit, 
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .fillMaxWidth(0.75f) 
+                        .fillMaxWidth(0.75f)
                         .padding(vertical = dimensionResource(id = R.dimen.padding_small))
                         .align(Alignment.CenterHorizontally),
 
-                )
+                    )
             } else {
                 Image(
                     painter = painter,
                     contentDescription = "default image",
                     modifier = Modifier
-                        .fillMaxWidth(fraction = 0.4f) 
+                        .fillMaxWidth(fraction = 0.4f)
                         .aspectRatio(1f)
                         .padding(
                             horizontal = dimensionResource(
@@ -274,61 +276,52 @@ fun ItemDetails(
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
                 )
             }
-            ItemDetailsRow(
-                itemDetail = item.name,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                ),
-            )
-            ItemDetailsRow(
-                itemDetail = item.genre ?: "",
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                ),
-            )
-            ItemDetailsRow(
-                itemDetail = item.minPlayer.toString(),
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                ),
-            )
-            ItemDetailsRow(
-                itemDetail = item.maxPlayer.toString(),
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                ),
-            )
-            ItemDetailsRow(
-                itemDetail = item.description ?: "",
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                ),
-            )
-        }
-    }
-}
+            val playerCount = when {
+                item.minPlayer != null && item.maxPlayer != null -> "${item.minPlayer} - ${item.maxPlayer}"
+                item.minPlayer != null -> item.minPlayer.toString()
+                item.maxPlayer != null -> item.maxPlayer.toString()
+                else -> null
+            }
 
-@Composable
-private fun ItemDetailsRow(
-    itemDetail: String, modifier: Modifier = Modifier
-) {
-    Row(modifier = modifier) {
-        Text(text = itemDetail, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
+            ) {
+                Column(
+                    modifier = Modifier.weight(2f),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+                ) { // Labels
+                    if (item.genre?.isNotBlank() == true) {
+                        Text(text = stringResource(R.string.item_genre) + ":", fontWeight = FontWeight.Bold)
+                    }
+                    if (playerCount != null) {
+                        Text(text = "Player count:", fontWeight = FontWeight.Bold)
+                    }
+                }
+                Column(
+                    modifier = Modifier.weight(3f),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+                ) { // Values
+                    if (item.genre?.isNotBlank() == true) {
+                        Text(text = item.genre, color = MaterialTheme.colorScheme.onSurface)
+                    }
+                    if (playerCount != null) {
+                        Text(text = playerCount, color = MaterialTheme.colorScheme.onSurface)
+                    }
+                }
+            }
+
+            if (item.description?.isNotBlank() == true) {
+                Text(
+                    text = item.description,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
+                )
+            }
+        }
     }
 }
 
