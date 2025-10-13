@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "de.gabriel.listtemplate"
+    namespace = "de.gabriel.listrandomizer"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "de.gabriel.listtemplate"
+        applicationId = "de.gabriel.listrandomizer"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.compose.adaptive.layout)
     implementation(libs.androidx.compose.adaptive.navigation)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.material3.window.size.class1)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui)

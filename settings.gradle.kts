@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "List Template"
+rootProject.name = "List Randomizer"
 include(":app")
  
