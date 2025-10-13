@@ -29,15 +29,6 @@ List Randomizer utilizes Material 3 Adaptive components to create user interface
 *   **State-Driven Navigation:** The content of the detail pane is controlled by a custom `DetailPaneState` (which includes `ViewItem`, `EditItem`, and `Hidden` states), managed by the `rememberListDetailPaneScaffoldNavigator`. This allows for clear and testable navigation logic within the detail view.
 *   **Compose-Powered:** Screen configurations and pane management are handled declaratively in Jetpack Compose, allowing ViewModels to remain largely unaware of specific display sizes.
 
-This approach provides a robust foundation for building responsive list-detail interfaces that adapt to a wide range of devices.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-*   Android Studio (Latest Stable Version Recommended)
-*   JDK 17 or higher
-
 ## 🏛️ Architecture
 
 This application follows the **MVVM (Model-View-ViewModel)** architectural pattern:
@@ -45,45 +36,3 @@ This application follows the **MVVM (Model-View-ViewModel)** architectural patte
 *   **View (Composables):** Observes `StateFlow` from the `ViewModel` and renders the UI. Sends user events to the `ViewModel`.
 *   **ViewModel:** Holds UI-related state (exposed via `StateFlow`) and handles UI logic. Interacts with Repositories to fetch and save data. `ViewModel`s are lifecycle-aware and generally do not need to be aware of the specific screen configuration.
 *   **Model (Repositories & Data Sources):** Abstract the data sources (Room database, file system for images). Repositories provide a clean API for `ViewModel`s to access data.
-
-## 🛠️ How To...
-
-### Add a New List Item Property
-
-1.  **Update Room Entity:**
-    *   Open `app/src/main/java/.../data/ItemEntry.kt`.
-    *   Add the new property to the `ItemEntry` data class and ensure it's reflected in the `@Entity` definition if it's a new column.
-    *   If it's a schema change, create a new Room migration.
-2.  **Update Data Model:**
-    *   Update `Item.kt` to include the new property.
-    *   Adjust any mapping functions (e.g., `toItem()`, `fromItemEntry()`).
-3.  **Update UI & ViewModels:**
-    *   Update ItemDetails and extension functions in `ItemEntryViewModel.kt` (and also the function `validateInput` if needed)
-    *   Adjust Composable functions `ItemEntryScreen.kt` and `ItemDetailsScreen.kt` to display and handle the new property.
-
-### Create a New Screen
-
-(This section primarily describes creating full-screen destinations outside the list-detail view. For new states within the detail pane, see `DetailPaneState.kt`)
-
-1.  **Define State:** Create a `data class` for your new screen's UI state (e.g., `NewScreenUiState.kt`).
-2.  **Create ViewModel:**
-    *   Create a `NewScreenViewModel.kt` inheriting from `androidx.lifecycle.ViewModel`.
-    *   Expose UI state via `StateFlow<NewScreenUiState>`.
-    *   Implement logic to fetch/update data via repositories.
-3.  **Create Composable:**
-    *   Create `NewScreen.kt` with a `@Composable` function.
-    *   Observe the `ViewModel`'s state.
-    *   Build your UI using Jetpack Compose components.
-4.  **Add Navigation:**
-    *   Define a new route object for your screen (similar to `HomeDestination` or `ItemEntryDestination`). This object typically defines at least a `route` string.
-    *   Add a new `composable` entry for this route within the `NavHost` in your main navigation setup (in `ListRandomizerApp.kt`)
-    *   Implement navigation actions (e.g., using `navController.navigate(YourNewScreenDestination.route)`) in other parts of your app to navigate to and from your new screen.
-
-## 🧪 Testing
-
-The project includes a starter setup for testing (which is currently WIP):
-
-*   **Unit Tests:** Located in `app/src/test/`. These test ViewModels and other business logic components using JUnit 4 and MockK. Turbine is used for testing Kotlin Flows.
-    *   Run with: `./gradlew testDebugUnitTest`
-*   **Instrumented/UI Tests (Optional - if you add them):** Located in `app/src/androidTest/`.
-    *   Run with: `./gradlew connectedAndroidTest`
