@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
@@ -24,6 +26,7 @@ import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -50,12 +53,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import de.gabriel.listrandomizer.data.Item
 import de.gabriel.listrandomizer.ui.AppViewModelProvider
 import de.gabriel.listrandomizer.ui.HomeDestination
 import de.gabriel.listrandomizer.ui.HomeScreen
 import de.gabriel.listrandomizer.ui.HomeUiState
 import de.gabriel.listrandomizer.ui.HomeViewModel
 import de.gabriel.listrandomizer.ui.common.TopAppBar
+import de.gabriel.listrandomizer.ui.item.ItemDetails
 import de.gabriel.listrandomizer.ui.item.ItemDetailsDestination
 import de.gabriel.listrandomizer.ui.item.ItemDetailsScreen
 import de.gabriel.listrandomizer.ui.item.ItemEditDestination
@@ -92,6 +97,12 @@ fun ListRandomizerApp(
                                     title = stringResource(R.string.list_title),
                                     canNavigateBack = false,
                                     actions = {
+                                        IconButton(onClick = { viewModel.pickRandomItem() }) {
+                                            Icon(
+                                                Icons.Default.Casino,
+                                                contentDescription = stringResource(R.string.random_pick)
+                                            )
+                                        }
                                         if (homeUiState.isFilterActive) {
                                             FilledTonalIconButton(onClick = { showBottomSheet = true }) {
                                                 Icon(
@@ -230,6 +241,13 @@ fun ListRandomizerApp(
                     )
                 }
             }
+
+            homeUiState.randomlySelectedItem?.let { item ->
+                RandomItemDialog(
+                    item = item,
+                    onDismiss = { viewModel.clearRandomItem() }
+                )
+            }
             
             val isDetailPaneShowingContent = listDetailPaneNavigator.currentDestination?.contentKey.let { state ->
                 state is DetailPaneState.ViewItem || state is DetailPaneState.EditItem
@@ -294,6 +312,23 @@ fun ListRandomizerApp(
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RandomItemDialog(item: Item, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = item.name, style = MaterialTheme.typography.headlineSmall) },
+        text = {
+            ItemDetails(item = item)
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.ok))
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
