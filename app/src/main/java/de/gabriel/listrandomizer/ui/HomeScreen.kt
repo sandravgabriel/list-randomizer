@@ -3,11 +3,13 @@ package de.gabriel.listrandomizer.ui
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,11 +49,13 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     itemList: List<Item>,
     onItemClick: (Int) -> Unit,
+    isFilterActive: Boolean,
     modifier: Modifier = Modifier
 ) {
     HomeBody(
         itemList = itemList,
         onItemClick = onItemClick,
+        isFilterActive = isFilterActive,
         modifier = modifier,
     )
 }
@@ -60,15 +64,22 @@ fun HomeScreen(
 private fun HomeBody(
     itemList: List<Item>,
     onItemClick: (Int) -> Unit,
+    isFilterActive: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        verticalArrangement = Arrangement.Top,
+        modifier = modifier.fillMaxSize()
     ) {
         if (itemList.isEmpty()) {
+            val emptyText = if (isFilterActive) {
+                stringResource(R.string.no_item_filtered_description)
+            } else {
+                stringResource(R.string.no_item_description)
+            }
             Text(
-                text = stringResource(R.string.no_item_description),
+                text = emptyText,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(16.dp),
@@ -91,7 +102,7 @@ private fun HomeList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(0.dp)
+        contentPadding = PaddingValues(vertical = 4.dp)
     ) {
         items(items = itemList, key = { it.id }) { item ->
             HomeItem(item = item,
@@ -158,11 +169,15 @@ private fun HomeItem(
 @Composable
 fun HomeBodyPreview() {
     ListRandomizerTheme {
-        HomeBody(listOf(
-            Item.fromItemEntry(ItemEntry(1, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
-            Item.fromItemEntry(ItemEntry(2, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
-            Item.fromItemEntry(ItemEntry(3, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null)
-        ), onItemClick = {})
+        HomeBody(
+            itemList = listOf(
+                Item.fromItemEntry(ItemEntry(1, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
+                Item.fromItemEntry(ItemEntry(2, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
+                Item.fromItemEntry(ItemEntry(3, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null)
+            ),
+            onItemClick = {},
+            isFilterActive = false
+        )
     }
 }
 
@@ -170,7 +185,15 @@ fun HomeBodyPreview() {
 @Composable
 fun HomeBodyEmptyListPreview() {
     ListRandomizerTheme {
-        HomeBody(listOf(), onItemClick = {})
+        HomeBody(listOf(), onItemClick = {}, isFilterActive = false)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyEmptyFilteredListPreview() {
+    ListRandomizerTheme {
+        HomeBody(listOf(), onItemClick = {}, isFilterActive = true)
     }
 }
 

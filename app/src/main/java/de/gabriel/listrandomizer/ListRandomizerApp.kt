@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -91,13 +92,26 @@ fun ListRandomizerApp(
                                     title = stringResource(R.string.list_title),
                                     canNavigateBack = false,
                                     actions = {
-                                        IconButton(onClick = { showBottomSheet = true }) {
-                                            Icon(Icons.Default.FilterList, contentDescription = "Filter")
+                                        if (homeUiState.isFilterActive) {
+                                            FilledTonalIconButton(onClick = { showBottomSheet = true }) {
+                                                Icon(
+                                                    Icons.Default.FilterList,
+                                                    contentDescription = stringResource(R.string.filter_active)
+                                                )
+                                            }
+                                        } else {
+                                            IconButton(onClick = { showBottomSheet = true }) {
+                                                Icon(
+                                                    Icons.Default.FilterList,
+                                                    contentDescription = stringResource(R.string.filter_inactive)
+                                                )
+                                            }
                                         }
                                     }
                                 )
                                 HomeScreen(
                                     itemList = homeUiState.itemList,
+                                    isFilterActive = homeUiState.isFilterActive,
                                     onItemClick = { itemId ->
                                         scope.launch {
                                             listDetailPaneNavigator.navigateTo(
