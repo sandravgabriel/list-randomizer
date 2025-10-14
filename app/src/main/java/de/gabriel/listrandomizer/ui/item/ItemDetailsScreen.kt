@@ -276,7 +276,13 @@ fun ItemDetails(
                 )
             }
             val playerCount = when {
-                item.minPlayer != null && item.maxPlayer != null && item.minPlayer != item.maxPlayer -> "${item.minPlayer} - ${item.maxPlayer}"
+                item.minPlayer != null && item.maxPlayer != null -> {
+                    if (item.minPlayer == item.maxPlayer) {
+                        item.minPlayer.toString()
+                    } else {
+                        "${item.minPlayer} - ${item.maxPlayer}"
+                    }
+                }
                 item.minPlayer != null -> item.minPlayer.toString()
                 item.maxPlayer != null -> item.maxPlayer.toString()
                 else -> null
@@ -288,7 +294,7 @@ fun ItemDetails(
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
             ) {
                 Column(
-                    modifier = Modifier.weight(2f),
+                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
                 ) { // Labels
                     if (item.genre?.isNotBlank() == true) {
@@ -299,7 +305,7 @@ fun ItemDetails(
                     }
                 }
                 Column(
-                    modifier = Modifier.weight(3f),
+                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
                 ) { // Values
                     if (item.genre?.isNotBlank() == true) {
