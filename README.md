@@ -1,11 +1,26 @@
 # List Randomizer
 
+[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com)
+[![minSDK](https://img.shields.io/badge/minSDK-24-brightgreen.svg)](https://android-arsenal.com/api?level=24)
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org)
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.09.01-brightgreen.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.10.00-brightgreen.svg)](https://developer.android.com/jetpack/compose)
 
-A modern Android application built with Kotlin and Jetpack Compose. It features local data storage using Room and image handling with PhotoPicker and Coil.
+A modern Android application designed to help you manage your board game collection and pick the perfect game for any occasion.
 
-## ✨Features
+## 🤔 What's the Purpose?
+
+Ever have trouble deciding what to play on game night? List Randomizer is here to help! This app is designed for board game enthusiasts to catalog their collection. You can easily filter your games by the number of players or genre to see exactly what's suitable for your group. And for those moments of indecision, the app can pick a random game from the filtered list for you.
+
+*(Further features are planned!)*
+
+## ✨ Features
+
+*   **Manage Your Game Collection:** Add, view, edit, and delete games.
+*   **Image Support:** Add a personal touch by including images for each game.
+*   **Smart Filtering:** Filter your collection by player count and/or genre to quickly find suitable games.
+*   **Randomizer:** Let the app pick a random game from your current list.
+
+## 🛠️ Technical Features
 
 *   **100% Kotlin:** Including asynchronous operations with Coroutines and Flows.
 *   **Modern UI Toolkit:** Built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose) for a declarative and reactive UI.
