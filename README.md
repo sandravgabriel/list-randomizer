@@ -5,7 +5,7 @@
 
 A modern Android application built with Kotlin and Jetpack Compose. It features local data storage using Room and image handling with PhotoPicker and Coil.
 
-## ✨ Features
+## ✨Features
 
 *   **100% Kotlin:** Including asynchronous operations with Coroutines and Flows.
 *   **Modern UI Toolkit:** Built entirely with [Jetpack Compose](https://developer.android.com/jetpack/compose) for a declarative and reactive UI.
@@ -19,7 +19,7 @@ A modern Android application built with Kotlin and Jetpack Compose. It features 
 *   **Testing:** Includes some examples for Unit and (optional) UI tests. (more to come)
 *   **Clean Code Principles:** Focus on readability and maintainability.
 
-## 📱 Adaptive UI
+## 📱Adaptive UI
 
 List Randomizer utilizes Material 3 Adaptive components to create user interfaces that respond to different screen sizes and orientations, focusing on a common list-detail pattern.
 

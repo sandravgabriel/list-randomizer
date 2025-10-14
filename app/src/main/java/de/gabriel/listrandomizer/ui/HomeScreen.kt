@@ -4,54 +4,36 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import de.gabriel.listrandomizer.ui.common.TopAppBar
 import de.gabriel.listrandomizer.R
 import de.gabriel.listrandomizer.data.Item
 import de.gabriel.listrandomizer.data.ItemEntry
@@ -63,91 +45,49 @@ object HomeDestination : NavigationDestination {
     override val titleRes = R.string.app_name
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToItemEntry: () -> Unit,
+    itemList: List<Item>,
     onItemClick: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    provideScaffold: Boolean = true,
-    topAppBarTitle: String = stringResource(HomeDestination.titleRes)
+    isFilterActive: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    val homeUiState by viewModel.homeUiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val screenContent = @Composable { paddingValuesFromParentScaffold: PaddingValues ->
-        Box(modifier = modifier.fillMaxSize()) {
-            HomeBody(
-                itemList = homeUiState.itemList,
-                onItemClick = onItemClick,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValuesFromParentScaffold),
-            )
-            FloatingActionButton(
-                onClick = navigateToItemEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-                    .padding(
-                        end = WindowInsets.safeDrawing
-                            .asPaddingValues()
-                            .calculateEndPadding(LocalLayoutDirection.current),
-                        bottom = WindowInsets.safeDrawing
-                            .asPaddingValues()
-                            .calculateBottomPadding()
-                    )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.item_entry_title)
-                )
-            }
-        }
-    }
-
-    if (provideScaffold) {
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                TopAppBar(
-                    title = topAppBarTitle,
-                    canNavigateBack = false,
-                    scrollBehavior = scrollBehavior
-                )
-            },
-        ) { innerPadding ->
-            screenContent(innerPadding)
-        }
-    } else {
-        screenContent(PaddingValues(0.dp))
-    }
+    HomeBody(
+        itemList = itemList,
+        onItemClick = onItemClick,
+        isFilterActive = isFilterActive,
+        modifier = modifier,
+    )
 }
 
 @Composable
 private fun HomeBody(
     itemList: List<Item>,
     onItemClick: (Int) -> Unit,
+    isFilterActive: Boolean,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(contentPadding)
+        verticalArrangement = Arrangement.Top,
+        modifier = modifier.fillMaxSize()
     ) {
         if (itemList.isEmpty()) {
+            val emptyText = if (isFilterActive) {
+                stringResource(R.string.no_item_filtered_description)
+            } else {
+                stringResource(R.string.no_item_description)
+            }
             Text(
-                text = stringResource(R.string.no_item_description),
+                text = emptyText,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(contentPadding),
+                modifier = Modifier.padding(16.dp),
             )
         } else {
             HomeList(
                 itemList = itemList,
                 onItemClick = { onItemClick(it.id) },
-                contentPadding = contentPadding,
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
         }
@@ -158,12 +98,11 @@ private fun HomeBody(
 private fun HomeList(
     itemList: List<Item>,
     onItemClick: (Item) -> Unit,
-    contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = contentPadding
+        contentPadding = PaddingValues(vertical = 4.dp)
     ) {
         items(items = itemList, key = { it.id }) { item ->
             HomeItem(item = item,
@@ -184,50 +123,44 @@ private fun HomeItem(
     Card(
         modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_large)),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (userImageAvailable) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(item.image)
-                            .placeholder(R.drawable.default_image)
-                            .error(R.drawable.error_24px)
-                            .listener(onError = { request, result ->
-                                Log.e("Coil", "Error loading image for ${request.data}: ${result.throwable}")
-                            })
-                            .build(),
-                        contentDescription = "selected image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .padding(vertical = dimensionResource(id = R.dimen.padding_small))
-                            .size(48.dp)
-                            .aspectRatio(1f)
-                    )
-                } else {
-                    Image(
-                        painter = painter,
-                        contentDescription = "default image",
-                        modifier = Modifier
-                            .padding(vertical = dimensionResource(id = R.dimen.padding_small))
-                            .height(48.dp),
-                        contentScale = ContentScale.FillHeight,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
-                    )
-                }
-                Spacer(Modifier.weight(0.5f))
-                Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.titleLarge,
+            if (userImageAvailable) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.image)
+                        .placeholder(R.drawable.default_image)
+                        .error(R.drawable.error_24px)
+                        .listener(onError = { request, result ->
+                            Log.e("Coil", "Error loading image for ${request.data}: ${result.throwable}")
+                        })
+                        .build(),
+                    contentDescription = "selected image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .aspectRatio(1f)
                 )
-                Spacer(Modifier.weight(1f))
+            } else {
+                Image(
+                    painter = painter,
+                    contentDescription = "default image",
+                    modifier = Modifier.size(48.dp),
+                    contentScale = ContentScale.Crop,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
+                )
             }
+
+            Spacer(Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
+
+            Text(
+                text = item.name,
+                style = MaterialTheme.typography.titleLarge,
+            )
         }
     }
 }
@@ -236,11 +169,15 @@ private fun HomeItem(
 @Composable
 fun HomeBodyPreview() {
     ListRandomizerTheme {
-        HomeBody(listOf(
-            Item.fromItemEntry(ItemEntry(1, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null),
-            Item.fromItemEntry(ItemEntry(2, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null),
-            Item.fromItemEntry(ItemEntry(3, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null)
-        ), onItemClick = {})
+        HomeBody(
+            itemList = listOf(
+                Item.fromItemEntry(ItemEntry(1, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
+                Item.fromItemEntry(ItemEntry(2, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null),
+                Item.fromItemEntry(ItemEntry(3, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null)
+            ),
+            onItemClick = {},
+            isFilterActive = false
+        )
     }
 }
 
@@ -248,7 +185,15 @@ fun HomeBodyPreview() {
 @Composable
 fun HomeBodyEmptyListPreview() {
     ListRandomizerTheme {
-        HomeBody(listOf(), onItemClick = {})
+        HomeBody(listOf(), onItemClick = {}, isFilterActive = false)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyEmptyFilteredListPreview() {
+    ListRandomizerTheme {
+        HomeBody(listOf(), onItemClick = {}, isFilterActive = true)
     }
 }
 
@@ -257,7 +202,7 @@ fun HomeBodyEmptyListPreview() {
 fun HomeItemPreview() {
     ListRandomizerTheme {
         HomeItem(
-            Item.fromItemEntry(ItemEntry(1, "Item","", description = "", genre = "", minPlayer = 1, maxPlayer = 6),null)
+            Item.fromItemEntry(ItemEntry(1, "Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 6), null)
         )
     }
 }
