@@ -9,9 +9,9 @@ A modern Android application designed to help you manage your board game collect
 
 ## 🤔 What's the Purpose?
 
-Ever have trouble deciding what to play on game night? List Randomizer is here to help! This app is designed for board game enthusiasts to catalog their collection. You can easily filter your games by the number of players or genre to see exactly what's suitable for your group. And for those moments of indecision, the app can pick a random game from the filtered list for you.
+Ever have trouble deciding what to play on game night? List Randomizer is here to help! This app is designed for board game enthusiasts to catalog their collection. You can easily filter your games by the number of players or genre to see exactly what's suitable for your group. And for those moments of indecision, the app can pick a random game from the (filtered) list for you.
 
-*(Further features are planned!)*
+*(Further features are planned)*
 
 ## ✨ Features
 
@@ -34,17 +34,17 @@ Ever have trouble deciding what to play on game night? List Randomizer is here t
 *   **Testing:** Includes some examples for Unit and (optional) UI tests. (more to come)
 *   **Clean Code Principles:** Focus on readability and maintainability.
 
-## 📱Adaptive UI
+## 📱 Adaptive UI
 
 List Randomizer utilizes Material 3 Adaptive components to create user interfaces that respond to different screen sizes and orientations, focusing on a common list-detail pattern.
 
-*   **`NavigableListDetailPaneScaffold`:** The core of the adaptive layout is the `NavigableListDetailPaneScaffold`. This component from the Material 3 Adaptive library automatically adjusts the layout based on available screen width.
+The core of the adaptive layout is the `NavigableListDetailPaneScaffold`. This component from the Material 3 Adaptive library automatically adjusts the layout based on available screen width.
     *   On **smaller screens** (like most phones in portrait mode), it typically displays a single pane (e.g., the list of items). Selecting an item navigates to its detail view, replacing the list.
     *   On **larger screens** (like tablets, foldables, or phones in landscape mode), it can display two panes side-by-side: the list pane and the detail pane. Selecting an item in the list updates the content of the detail pane.
 *   **State-Driven Navigation:** The content of the detail pane is controlled by a custom `DetailPaneState` (which includes `ViewItem`, `EditItem`, and `Hidden` states), managed by the `rememberListDetailPaneScaffoldNavigator`. This allows for clear and testable navigation logic within the detail view.
 *   **Compose-Powered:** Screen configurations and pane management are handled declaratively in Jetpack Compose, allowing ViewModels to remain largely unaware of specific display sizes.
 
-## 🏛️ Architecture
+## 🏛️  Architecture
 
 This application follows the **MVVM (Model-View-ViewModel)** architectural pattern:
 
