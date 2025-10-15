@@ -107,7 +107,7 @@ private fun HomeList(
         items(items = itemList, key = { it.id }) { item ->
             HomeItem(item = item,
                 modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_small))
+                    .padding(dimensionResource(id = R.dimen.padding_extra_small))
                     .clickable { onItemClick(item) })
         }
     }
@@ -121,12 +121,16 @@ private fun HomeItem(
     val painter = painterResource(id = R.drawable.default_image)
 
     Card(
-        modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_large)),
+                .padding(dimensionResource(id = R.dimen.padding_medium)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (userImageAvailable) {
@@ -159,7 +163,7 @@ private fun HomeItem(
 
             Text(
                 text = item.name,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }
