@@ -13,6 +13,12 @@ Ever have trouble deciding what to play on game night? List Randomizer is here t
 
 *(Further features are planned)*
 
+## Screenshots
+
+|                HomeScreen                 |             Item Entry View              |                   Detail View                   |
+|:-----------------------------------------:|:----------------------------------------:|:-----------------------------------------------:|
+| ![HomeScreen](screenshots/homescreen.png) | ![Detail View](screenshots/add_item.png) | ![Add Item Screen](screenshots/detail_view.png) |
+
 ## ✨ Features
 
 *   **Manage Your Game Collection:** Add, view, edit, and delete games.
