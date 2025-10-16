@@ -15,7 +15,13 @@ private val DarkColorScheme = darkColorScheme(
     primary = Blue80,
     secondary = BlueGrey80,
     tertiary = LightBlue80,
-    surface = BlueGrey80,
+    surface = DarkSurface,
+    onSurface = LightText,
+    background = DarkSurface,
+    onBackground = LightText,
+    primaryContainer = Blue40,
+    secondaryContainer = Blue40,
+    onPrimaryContainer = Blue80,
     scrim = Color.Black.copy(alpha = 0.3f)
 )
 
@@ -24,6 +30,12 @@ private val LightColorScheme = lightColorScheme(
     secondary = BlueGrey40,
     tertiary = LightBlue40,
     surface = Color(0xFFFDFBFF),
+    onSurface = Color.Black,
+    background = Color(0xFFFDFBFF),
+    onBackground = Color.Black,
+    primaryContainer = Blue80,
+    secondaryContainer = Blue80,
+    onPrimaryContainer = Blue40,
     scrim = Color.Black.copy(alpha = 0.3f)
 )
 
@@ -37,17 +49,25 @@ fun ListRandomizerTheme(
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            val baseScheme = if (darkTheme) {
-                dynamicDarkColorScheme(context)
+            if (darkTheme) {
+                val dynamicDark = dynamicDarkColorScheme(context)
+                dynamicDark.copy(
+                    // Unify surface and background for a seamless look
+                    surface = dynamicDark.background,
+                    // Unify container colors for consistency
+                    secondaryContainer = dynamicDark.primaryContainer,
+                    // Use a consistent scrim
+                    scrim = Color.Black.copy(alpha = 0.3f)
+                )
             } else {
-                dynamicLightColorScheme(context)
+                val dynamicLight = dynamicLightColorScheme(context)
+                dynamicLight.copy(
+                    // Unify container colors for consistency
+                    secondaryContainer = dynamicLight.primaryContainer,
+                    // Use a consistent scrim
+                    scrim = Color.Black.copy(alpha = 0.3f)
+                )
             }
-            // Override specific colors to ensure consistency,
-            // while keeping the rest of the theme dynamic.
-            baseScheme.copy(
-                scrim = Color.Black.copy(alpha = 0.3f), // Consistent scrim
-                surface = if (darkTheme) DarkColorScheme.surface else LightColorScheme.surface // Consistent surface
-            )
         }
 
         darkTheme -> DarkColorScheme
