@@ -27,59 +27,47 @@ import java.io.FileNotFoundException
 @Config(sdk = [Config.OLDEST_SDK])
 class PhotoSaverRepositoryTest {
 
-    // StandardTestDispatcher ist oft besser für vorhersagbare Tests als UnconfinedTestDispatcher,
-    // da er mehr Kontrolle über die Ausführungsreihenfolge gibt.
     private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var repository: PhotoSaverRepository
     private lateinit var mockContentResolver: ContentResolver
     private lateinit var context: Context
 
-    // TemporaryFolder Rule ist eine gute Praxis für das Management von Testdateien und -ordnern.
-    // Es stellt sicher, dass die Ordner nach jedem Test (oder nach der Testklasse) aufgeräumt werden.
     @get:Rule
     val tempFolder = TemporaryFolder()
 
     private lateinit var testCacheDirInTemp: File
     private lateinit var testFilesDirInTemp: File
 
-    // Dummy URI und Daten für Tests
     private val testUri: Uri = Uri.parse("content://com.example.test/dummy")
     private val testPhotoData = "This is a test photo content."
     private val testPhotoBytes = testPhotoData.toByteArray()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher) // Hauptdispatcher für Coroutines setzen
+        Dispatchers.setMain(testDispatcher)
 
         context = ApplicationProvider.getApplicationContext()
         mockContentResolver = mockk()
 
-        // Erstelle Unterverzeichnisse im TemporaryFolder, die die Struktur von cacheDir/filesDir simulieren
         testCacheDirInTemp = tempFolder.newFolder("cache")
         testFilesDirInTemp = tempFolder.newFolder("files")
 
-        // Erstelle die "photos"-Unterordner, die das Repository erwartet
         File(testCacheDirInTemp, "photos").mkdirs()
         File(testFilesDirInTemp, "photos").mkdirs()
 
-        // Erstelle einen Spy vom Robolectric Context, um cacheDir und filesDir zu überschreiben,
-        // damit sie auf unsere temporären Ordner zeigen.
-        // Das ist ein Weg, dem Repository kontrollierte Pfade unterzujubeln, ohne das Repository selbst ändern zu müssen.
         val spiedContext = spyk(context) {
             every { cacheDir } returns testCacheDirInTemp
             every { filesDir } returns testFilesDirInTemp
         }
 
         repository = PhotoSaverRepository(spiedContext, mockContentResolver)
-        println("SETUP: Repository instance in setUp: ${System.identityHashCode(repository)}") // Logge den Identity Hash
+        println("SETUP: Repository instance in setUp: ${System.identityHashCode(repository)}")
     }
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain() // Coroutine-Dispatcher zurücksetzen
-        // tempFolder.delete() wird automatisch durch die @Rule aufgerufen,
-        // sodass eine manuelle Löschung der Ordner meist nicht nötig ist.
+        Dispatchers.resetMain()
     }
 
     // --- Tests für generatePhotoCacheFile ---
@@ -123,7 +111,6 @@ class PhotoSaverRepositoryTest {
 
         // Then
         assertNull("Internes 'photo' sollte null sein, wenn Stream null ist", repository.photo)
-        // Sicherstellen, dass keine unerwarteten Dateien erstellt wurden
         assertEquals("Cache-Photos-Ordner sollte leer sein", 0, File(testCacheDirInTemp, "photos").listFiles()?.size ?: 0)
     }
 
@@ -175,7 +162,6 @@ class PhotoSaverRepositoryTest {
     fun `removeFile should return true and set photo to null if photo file does not exist`() = runTest(testDispatcher) {
         // Given
         val nonExistentFile = repository.generatePhotoCacheFile() // Holen wir uns einen Pfad
-        // Sicherstellen, dass die Datei nicht existiert
         if (nonExistentFile.exists()) nonExistentFile.delete()
         repository.photo = nonExistentFile // Simuliere, dass dieses (nicht existente) Foto gecached war
 
@@ -191,7 +177,7 @@ class PhotoSaverRepositoryTest {
     // --- Tests für savePhoto ---
     @Test
     fun `savePhoto should copy cached file to persistent storage, delete cached file, and return saved file`() = runTest(testDispatcher) {
-        // Given: Ein gecachtes Foto
+        // Given
         val cachedPhotoFile = repository.generatePhotoCacheFile()
         cachedPhotoFile.writeText(testPhotoData)
         repository.photo = cachedPhotoFile

@@ -267,8 +267,7 @@ fun ListRandomizerApp(
             }
             BackHandler(enabled = isDetailPaneShowingContent) {
                 scope.launch {
-                    val currentKey = listDetailPaneNavigator.currentDestination?.contentKey
-                    when (currentKey) {
+                    when (val currentKey = listDetailPaneNavigator.currentDestination?.contentKey) {
                         is DetailPaneState.EditItem -> {
                             listDetailPaneNavigator.navigateTo(
                                 ListDetailPaneScaffoldRole.Detail,

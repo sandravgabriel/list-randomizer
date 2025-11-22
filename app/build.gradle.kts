@@ -46,7 +46,6 @@ android {
     }
     testOptions {
         unitTests {
-            // Diese Option ist wichtig, damit Robolectric auf Android-Ressourcen zugreifen kann
             isIncludeAndroidResources = true
         }
     }
@@ -85,6 +84,7 @@ dependencies {
     testImplementation(libs.mockk.core)
     testImplementation(libs.robolectric)
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.test.core.ktx) // AndroidX Test Core - nützlich für das Holen von ApplicationContext in Robolectric-Tests
-    // testImplementation(libs.androidx.test.rules)
+    testImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.turbine)
 }

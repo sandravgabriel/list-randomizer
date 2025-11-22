@@ -38,8 +38,7 @@ class OfflineItemsRepositoryTest {
         Dispatchers.setMain(testDispatcher)
         itemDao = mockk()
         repository = OfflineItemsRepository(itemDao)
-        mockFile = mockk<File>(relaxed = true) // relaxed, damit z.B. file.name nicht gemockt werden muss, wenn nicht direkt gebraucht
-        // every { mockFile.name } returns "test.txt" // Wenn der Name gebraucht wird
+        mockFile = mockk<File>(relaxed = true)
     }
 
     @After
@@ -54,8 +53,10 @@ class OfflineItemsRepositoryTest {
     fun `getItemWithFile returns item when dao provides entry`() = runTest(testDispatcher) {
         // Given
         val testId = 1
-        val dummyEntry = ItemEntry(id = testId, name = "Test Item", "")
-        val expectedItem = Item.fromItemEntry(dummyEntry, mockFile) // Berechne das erwartete Item
+        val dummyEntry = ItemEntry(
+            id = testId, name = "Test Item", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1
+        )
+        val expectedItem = Item.fromItemEntry(dummyEntry, mockFile)
 
         every { itemDao.getItem(testId) } returns flowOf(dummyEntry)
 
@@ -67,7 +68,7 @@ class OfflineItemsRepositoryTest {
         assertNotNull(resultItem)
         assertEquals(expectedItem.id, resultItem!!.id)
         assertEquals(expectedItem.name, resultItem.name)
-        Assert.assertEquals(expectedItem.image, resultItem.image)
+        assertEquals(expectedItem.image, resultItem.image)
         // ... weitere Assertions für die Eigenschaften des Items ...
 
         verify(exactly = 1) { itemDao.getItem(testId) }
@@ -121,8 +122,8 @@ class OfflineItemsRepositoryTest {
     @Test
     fun `getAllItemsWithFiles returns list of items when dao provides entries`() = runTest(testDispatcher) {
         // Given
-        val entry1 = ItemEntry(id = 1, name = "Item One", "")
-        val entry2 = ItemEntry(id = 2, name = "Item Two", "")
+        val entry1 = ItemEntry(id = 1, name = "Item One", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1)
+        val entry2 = ItemEntry(id = 2, name = "Item Two", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1)
         val daoEntries = listOf(entry1, entry2)
 
         val expectedItem1 = Item.fromItemEntry(entry1, mockFile)

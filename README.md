@@ -37,7 +37,7 @@ Ever have trouble deciding what to play on game night? List Randomizer is here t
     *   Efficient image loading and caching with [Coil](https://coil-kt.github.io/coil/).
 *   **MVVM Architecture:** Follows a Model-View-ViewModel pattern for a clear separation of concerns and testability.
 *   **Adaptive UI:** Implements a list-detail view for different screen sizes using [Material 3 Adaptive components](https://m3.material.io/libraries/adaptive/overview), specifically `NavigableListDetailPaneScaffold`.
-*   **Testing:** Includes some examples for Unit and (optional) UI tests. (more to come)
+*   **Testing:** Includes some examples for tests.
 *   **Clean Code Principles:** Focus on readability and maintainability.
 
 ## 📱 Adaptive UI

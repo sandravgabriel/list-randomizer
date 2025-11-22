@@ -29,8 +29,7 @@ class PhotoSaverRepository(context: Context, private val contentResolver: Conten
             val targetFile = generatePhotoCacheFile()
             try {
                 contentResolver.openInputStream(uri)?.use { inputStream ->
-                    // FileOutputStream(targetFile).use { outputStream -> // Alternative 1
-                    targetFile.outputStream().use { outputStream ->      // Alternative 2 (idiomatischer)
+                    targetFile.outputStream().use { outputStream ->
                         inputStream.copyTo(outputStream)
                     }
                     photo = targetFile

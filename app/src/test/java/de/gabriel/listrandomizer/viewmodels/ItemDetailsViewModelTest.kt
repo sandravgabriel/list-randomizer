@@ -1,0 +1,109 @@
+package de.gabriel.listrandomizer.ui.item
+
+import app.cash.turbine.test
+import de.gabriel.listrandomizer.data.Item
+import de.gabriel.listrandomizer.data.ItemEntry
+import de.gabriel.listrandomizer.data.ItemsRepository
+import de.gabriel.listrandomizer.data.PhotoSaverRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class ItemDetailsViewModelTest {
+
+    private lateinit var viewModel: ItemDetailsViewModel
+    private lateinit var itemsRepository: ItemsRepository
+    private lateinit var photoSaverRepository: PhotoSaverRepository
+    private val testDispatcher = StandardTestDispatcher()
+
+    @Before
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+        itemsRepository = mock()
+        photoSaverRepository = mock()
+        viewModel = ItemDetailsViewModel(itemsRepository, photoSaverRepository)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `uiState should be initialized with null itemDetails`() = runTest {
+        Assert.assertNull(viewModel.uiState.value.itemDetails)
+    }
+
+    @Test
+    fun `uiState should react to data from repository`() = runTest {
+        val item = Item.Companion.fromItemEntry(ItemEntry(1, "Item 1", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1), null)
+        whenever(itemsRepository.getItemWithFile(1, photoSaverRepository.photoFolder)).doReturn(
+            flowOf(
+                item
+            )
+        )
+
+        viewModel.uiState.test {
+            //Überspringe den initialen Zustand, bei dem itemDetails noch null ist.
+            skipItems(1)
+
+            viewModel.loadItemDetailsForId(1)
+
+            val loadedState = awaitItem()
+            Assert.assertEquals(item.toItemDetails(), loadedState.itemDetails)
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+
+    @Test
+    fun `deleteItem should return true when item and file are deleted`() = runTest {
+        val item = Item.Companion.fromItemEntry(ItemEntry(1, "Item 1", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1), null)
+        whenever(photoSaverRepository.removeFile()).doReturn(true)
+        viewModel.uiState.value.itemDetails
+        val itemDetails = item.toItemDetails()
+        val uiStateWithItem = ItemDetailsUiState(itemDetails)
+        val viewModel = ItemDetailsViewModel(itemsRepository, photoSaverRepository)
+        val uiStateField = viewModel.javaClass.getDeclaredField("uiState")
+        uiStateField.isAccessible = true
+        val mockStateFlow = MutableStateFlow(uiStateWithItem)
+        uiStateField.set(viewModel, mockStateFlow)
+
+
+        val result = viewModel.deleteItem()
+
+        Assert.assertTrue(result)
+    }
+
+
+    @Test
+    fun `deleteItem should return false when file deletion fails`() = runTest {
+        val item = Item.Companion.fromItemEntry(ItemEntry(1, "Item 1", "", description = "", genre = "", minPlayer = 1, maxPlayer = 1), null)
+        whenever(photoSaverRepository.removeFile()).doReturn(false)
+        val itemDetails = item.toItemDetails()
+        val uiStateWithItem = ItemDetailsUiState(itemDetails)
+
+        val viewModel = ItemDetailsViewModel(itemsRepository, photoSaverRepository)
+        val uiStateField = viewModel.javaClass.getDeclaredField("uiState")
+        uiStateField.isAccessible = true
+        val mockStateFlow = MutableStateFlow(uiStateWithItem)
+        uiStateField.set(viewModel, mockStateFlow)
+        val result = viewModel.deleteItem()
+
+        Assert.assertFalse(result)
+    }
+}

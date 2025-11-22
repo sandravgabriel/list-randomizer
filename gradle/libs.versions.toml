@@ -25,10 +25,11 @@ mockk = "1.14.6"
 robolectric = "4.16"
 kotlinxCoroutinesTest = "1.10.2"
 androidxTestCore = "1.7.0" # (kann für Robolectric nützlich sein, bringt AndroidX APIs in Tests)
-# androidxTestRules = "1.5.0" # (für InstantTaskExecutorRule etc., falls benötigt)
 
 # Other Libraries
 coil = "2.7.0"
+mockitoKotlin = "5.2.1"
+turbine = "1.2.1"
 
 [libraries]
 # AndroidX Libraries
@@ -63,14 +64,15 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockk-core = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
-# androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
 
 # Other Libraries
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
