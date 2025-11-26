@@ -1,7 +1,6 @@
 # List Randomizer
 
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com)
-[![minSDK](https://img.shields.io/badge/minSDK-24-brightgreen.svg)](https://android-arsenal.com/api?level=24)
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org)
 [![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-2025.10.00-brightgreen.svg)](https://developer.android.com/jetpack/compose)
 
